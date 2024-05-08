@@ -30,6 +30,12 @@ public class Programa {
 		Vendedor novoVendedor = new Vendedor(null, "Pablo", "pablo@email.com", new Date(), 4000.0, departamento);
 		vendedorDao.inserir(novoVendedor);
 		System.out.println("Inserido, novo id: " + novoVendedor.getId());
+		System.out.println("\n=== TESTE 5: ATUALIZAR VENDEDOR ===");
+		vendedor = vendedorDao.acharPorId(8);
+		vendedor.setNome("Martha");
+		vendedor.setEmail("martha@email.com");
+		vendedorDao.atualizar(vendedor);
+		System.out.println("Atualização feita.");
 	}
 
 }

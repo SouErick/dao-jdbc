@@ -1,5 +1,6 @@
 package com.application;
 
+import java.util.Date;
 import java.util.List;
 
 import com.dao.FeitoriaDao;
@@ -25,6 +26,10 @@ public class Programa {
 		for(Vendedor obj : lista) {
 			System.out.println(obj);
 		}
+		System.out.println("\n=== TESTE 4: INSERIR VENDEDOR ===");
+		Vendedor novoVendedor = new Vendedor(null, "Pablo", "pablo@email.com", new Date(), 4000.0, departamento);
+		vendedorDao.inserir(novoVendedor);
+		System.out.println("Inserido, novo id: " + novoVendedor.getId());
 	}
 
 }

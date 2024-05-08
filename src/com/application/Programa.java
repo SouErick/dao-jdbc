@@ -20,6 +20,11 @@ public class Programa {
 		for(Vendedor obj : lista) {
 			System.out.println(obj);
 		}
+		System.out.println("\n=== TESTE 3: ACHAR TODOS ===");
+		lista = vendedorDao.acharTodos();
+		for(Vendedor obj : lista) {
+			System.out.println(obj);
+		}
 	}
 
 }

@@ -9,5 +9,5 @@ public interface DepartamentoDao {
 	void atualizar(Departamento obj);
 	void deletarPorId(Integer id);
 	Departamento acharPorId(Integer id);
-	List<Integer> acharTodos();
+	List<Departamento> acharTodos();
 }

@@ -38,7 +38,7 @@ public class ProgramaVendedor {
 		vendedor.setEmail("martha@email.com");
 		vendedorDao.atualizar(vendedor);
 		System.out.println("Atualização feita.");
-		System.out.println("\n=== TESTE 6: EXCLUIR VENDEDOR ===");
+		System.out.println("\n=== TESTE 6: DELETAR VENDEDOR ===");
 		System.out.print("Entre com id para DELETAR: ");
 		int id = teclado.nextInt();
 		vendedorDao.deletarPorId(id);

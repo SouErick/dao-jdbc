@@ -9,7 +9,7 @@ import com.dao.VendedorDao;
 import com.entities.Departamento;
 import com.entities.Vendedor;
 
-public class Programa {
+public class ProgramaVendedor {
 
 	public static void main(String[] args) {
 		Scanner teclado = new Scanner(System.in);
@@ -28,6 +28,16 @@ public class Programa {
 		for(Vendedor obj : lista) {
 			System.out.println(obj);
 		}
+		System.out.println("\n=== TESTE 4: INSERIR VENDEDOR ===");
+		Vendedor novoVendedor = new Vendedor(null, "Pablo", "pablo@email.com", new Date(), 4000.0, departamento);
+		vendedorDao.inserir(novoVendedor);
+		System.out.println("Inserido, novo id: " + novoVendedor.getId());
+		System.out.println("\n=== TESTE 5: ATUALIZAR VENDEDOR ===");
+		vendedor = vendedorDao.acharPorId(8);
+		vendedor.setNome("Martha");
+		vendedor.setEmail("martha@email.com");
+		vendedorDao.atualizar(vendedor);
+		System.out.println("Atualização feita.");
 		System.out.println("\n=== TESTE 6: EXCLUIR VENDEDOR ===");
 		System.out.print("Entre com id para DELETAR: ");
 		int id = teclado.nextInt();

@@ -14,11 +14,13 @@ import com.entities.Departamento;
 import db.DB;
 import db.DbException;
 
-public class DepartamentoDaoJDBC implements DepartamentoDao{
+public class DepartamentoDaoJDBC implements DepartamentoDao {
 	private Connection conn;
+
 	public DepartamentoDaoJDBC(Connection conn) {
 		this.conn = conn;
 	}
+
 	@Override
 	public void inserir(Departamento obj) {
 		PreparedStatement st = null;
@@ -26,23 +28,21 @@ public class DepartamentoDaoJDBC implements DepartamentoDao{
 			st = conn.prepareStatement("INSERT INTO department (Name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
 			st.setString(1, obj.getNome());
 			int linhasAfetadas = st.executeUpdate();
-			if(linhasAfetadas > 0) {
+			if (linhasAfetadas > 0) {
 				ResultSet rs = st.getGeneratedKeys();
-				if(rs.next()) {
+				if (rs.next()) {
 					int id = rs.getInt(1);
 					obj.setId(id);
 				}
 				DB.closeResultSet(rs);
-			}else {
+			} else {
 				throw new DbException("Nenhuma linha afetada");
 			}
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		}finally {
+		} finally {
 			DB.closeStatement(st);
 		}
-		
-		
 	}
 
 	@Override
@@ -53,29 +53,36 @@ public class DepartamentoDaoJDBC implements DepartamentoDao{
 			st.setString(1, obj.getNome());
 			st.setInt(2, obj.getId());
 			st.executeUpdate();
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		}finally {
+		} finally {
 			DB.closeStatement(st);
 		}
-		
-		
+
 	}
 
 	@Override
 	public void deletarPorId(Integer id) {
-		// TODO Auto-generated method stub
 		PreparedStatement st = null;
+		ResultSet rs = null;
 		try {
-			st = conn.prepareStatement("DELETE FROM department WHERE Id = ?");
+			st = conn.prepareStatement("SELECT * FROM seller WHERE DepartmentId = ?");
 			st.setInt(1, id);
-			st.executeUpdate();
-		}catch(SQLException e) {
+			rs = st.executeQuery();
+			if (rs.next()) {
+				throw new DbException("Não é possível excluir o departamento pois há vendedores associados a ele.");
+			} else {
+				DB.closeStatement(st);
+				st = conn.prepareStatement("DELETE FROM department WHERE Id = ?");
+				st.setInt(1, id);
+				st.executeUpdate();
+			}
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		}finally {
+		} finally {
 			DB.closeStatement(st);
+			DB.closeResultSet(rs);
 		}
-		
 	}
 
 	@Override
@@ -87,16 +94,16 @@ public class DepartamentoDaoJDBC implements DepartamentoDao{
 			st = conn.prepareStatement("SELECT * FROM department WHERE Id = ?");
 			st.setInt(1, id);
 			rs = st.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				Departamento departamento = new Departamento();
 				departamento.setId(rs.getInt("Id"));
 				departamento.setNome(rs.getString("Name"));
 				return departamento;
 			}
 			return null;
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		}finally {
+		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
@@ -108,19 +115,19 @@ public class DepartamentoDaoJDBC implements DepartamentoDao{
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			st = conn.prepareStatement("SELECT * FROM department ORDER BY Name ");
+			st = conn.prepareStatement("SELECT * FROM department ORDER BY Id ");
 			rs = st.executeQuery();
 			List<Departamento> lista = new ArrayList<>();
-			while(rs.next()) {
+			while (rs.next()) {
 				Departamento departamento = new Departamento();
 				departamento.setId(rs.getInt("Id"));
 				departamento.setNome(rs.getString("Name"));
 				lista.add(departamento);
 			}
 			return lista;
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		}finally {
+		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}

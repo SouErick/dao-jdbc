@@ -62,7 +62,7 @@ public class ProgramaDepartamento {
 					break;
 				case 3:
 					System.out.println("===== PROCURAR POR ID DO DEPARTAMENTO ====");
-					System.out.println("Digite o id a procurar: ");
+					System.out.print("Digite o id a procurar: ");
 					idDesejado = Integer.parseInt(teclado.readLine());
 					novoDepartamento = departamentoDao.acharPorId(idDesejado);
 					System.out.println(novoDepartamento);
